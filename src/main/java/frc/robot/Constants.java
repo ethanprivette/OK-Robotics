@@ -18,7 +18,7 @@ public final class Constants {
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.4064;
 
     public static final double MAX_VELOCITY_METERS_PER_SECOND = HD_HEX_MAX_RPM / 60.0 *
-        //drive reduction *
+        //drivereduction *
         0.0762 * Math.PI;
 
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /

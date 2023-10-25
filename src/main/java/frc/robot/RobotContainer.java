@@ -6,13 +6,16 @@ package frc.robot;
 
 import java.util.function.Supplier;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.autonomous.ClimbAuto;
 import frc.robot.commands.autonomous.DriveUntilCommand;
+import frc.robot.commands.autonomous.Turn90;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class RobotContainer {
@@ -34,10 +37,16 @@ public class RobotContainer {
 
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
+    NamedCommands.registerCommand("Turn 90", new Turn90(m_driveSubsystem, true));
+    
     configureBindings();
   }
 
   private void configureBindings() {
+
+    m_primaryController.leftStick().and(m_primaryController.rightStick())
+      .onTrue(new ClimbAuto(m_driveSubsystem, 1));
+      
   }
 
   public Command getAutonomousCommand() {

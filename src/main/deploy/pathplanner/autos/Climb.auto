@@ -1,0 +1,30 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Stage 1 Climb"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Turn 90"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Stage 2 Climb"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null
+}
