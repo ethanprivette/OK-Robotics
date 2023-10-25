@@ -31,7 +31,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public boolean onFlat() {
-    return Math.abs(m_gyro.getYaw() + 180) < 4;
+    return Math.abs(m_gyro.getPitch()) < 4;
   }
 
   public double getAngle() {
