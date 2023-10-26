@@ -11,6 +11,12 @@ public final class Constants {
 
     public static final int LEFT_TALON_PWM = 1;
     public static final int RIGHT_TALON_PWM = 2;
+
+    public static final int LEFT_ENCODER_DIO_1 = 0;
+    public static final int LEFT_ENCODER_DIO_2 = 0;
+
+    public static final int RIGHT_ENCODER_DIO_1 = 0;
+    public static final int RIGHT_ENCODER_DIO_2 = 0;
     
     public static final double HD_HEX_MAX_RPM = 6000;
 
