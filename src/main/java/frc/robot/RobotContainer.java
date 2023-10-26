@@ -35,6 +35,8 @@ public class RobotContainer {
   
     m_autoChooser.setDefaultOption("Do Nothing", () -> new DriveUntilCommand(m_driveSubsystem, 0, () -> true));
 
+    m_driveSubsystem.followTrajectoryCommand("Test", true);
+
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
     NamedCommands.registerCommand("Turn 90", new Turn90(m_driveSubsystem, true));
