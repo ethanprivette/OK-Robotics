@@ -13,7 +13,6 @@ public class Turn90 extends Command {
 
   private DriveSubsystem m_driveSubsystem;
   private boolean m_pos;
-  private double currentAngle;
   private double desiredAngle;
   private PIDController m_pidContoller = new PIDController(0.0, 0.0, 0.0);
 
@@ -32,16 +31,14 @@ public class Turn90 extends Command {
   @Override
   public void initialize() {
     m_pidContoller.reset();
-    currentAngle = m_driveSubsystem.getAngle();
     if(m_pos) {
-      desiredAngle = currentAngle + 90;
+      desiredAngle = 90;
     } else if (!m_pos) {
-      desiredAngle = currentAngle - 90;
+      desiredAngle = -90;
     }
     desiredAngle = 0;
     System.out.println("ANGLE FAILED TO INITIALIZE");
 
-    SmartDashboard.putNumber("Current Angle", currentAngle);
     SmartDashboard.putNumber("Rotating to", desiredAngle);
 
     m_pidContoller.setSetpoint(desiredAngle);

@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,8 +15,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private AHRS m_gyro;
 
-  private Spark m_left = new Spark(Constants.LEFT_SPARK_PWM);
-  private Spark m_right = new Spark(Constants.RIGHT_SPARK_PWM);
+  private Talon m_left = new Talon(Constants.LEFT_TALON_PWM);
+  private Talon m_right = new Talon(Constants.RIGHT_TALON_PWM);
 
   private DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 

@@ -9,8 +9,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 /** Add your docs here. */
 public final class Constants {
 
-    public static final int LEFT_SPARK_PWM = 1;
-    public static final int RIGHT_SPARK_PWM = 2;
+    public static final int LEFT_TALON_PWM = 1;
+    public static final int RIGHT_TALON_PWM = 2;
     
     public static final double HD_HEX_MAX_RPM = 6000;
 
