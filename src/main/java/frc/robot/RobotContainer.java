@@ -17,10 +17,14 @@ import frc.robot.commands.autonomous.ClimbAuto;
 import frc.robot.commands.autonomous.DriveUntilCommand;
 import frc.robot.commands.autonomous.Turn90;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
 public class RobotContainer {
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
+  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
 
   private final CommandXboxController m_primaryController = new CommandXboxController(0);
 
@@ -54,8 +58,15 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     var autoCommandSupplier = m_autoChooser.getSelected();
     if (autoCommandSupplier != null) {
-      return autoCommandSupplier.get();
+      return autoCommandSupplier.get()
+        .beforeStarting(() -> m_turretSubsystem.zeroTurret(), m_turretSubsystem)
+        .beforeStarting(() -> m_elevatorSubsystem.zeroElevator(), m_elevatorSubsystem);
     }
     return null;
+  }
+
+  public void teleopInit() {
+    m_turretSubsystem.zeroTurret();
+    m_elevatorSubsystem.zeroElevator();
   }
 }

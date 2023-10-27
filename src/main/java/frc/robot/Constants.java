@@ -9,8 +9,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 /** Add your docs here. */
 public final class Constants {
 
-    public static final int LEFT_TALON_PWM = 1;
-    public static final int RIGHT_TALON_PWM = 2;
+    public static final int LEFT_TALON_PWM = 0;
+    public static final int RIGHT_TALON_PWM = 0;
 
     public static final int LEFT_ENCODER_DIO_1 = 0;
     public static final int LEFT_ENCODER_DIO_2 = 0;
@@ -19,6 +19,8 @@ public final class Constants {
     public static final int RIGHT_ENCODER_DIO_2 = 0;
     
     public static final double HD_HEX_MAX_RPM = 6000;
+    public static final double HD_HEX_ENCODER_CPR = 28.0;
+    public static final double HD_HEX_COUNTS_PER_DEGREE = HD_HEX_ENCODER_CPR / 360;
 
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.381;
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.4064;
@@ -33,4 +35,18 @@ public final class Constants {
 
     public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(DRIVETRAIN_TRACKWIDTH_METERS);
 
+
+    public static final int ELEVATOR_TALON_PWM = 0;
+
+    public static final int ELEVATOR_ENCODER_DIO_1 = 0;
+    public static final int ELEVATOR_ENCODER_DIO_2 = 0;
+
+    public static final double ELEVATOR_GEAR_RATIO = 75.0;
+    public static final double ELEVATOR_ROTATIONS_PER_DEGREE = ELEVATOR_GEAR_RATIO / 360.0;
+
+
+    public static final int TURRET_TALON_PWM = 0;
+
+    public static final int TURRET_ENCODER_DIO_1 = 0;
+    public static final int TURRET_ENCODER_DIO_2 = 0;
 }
