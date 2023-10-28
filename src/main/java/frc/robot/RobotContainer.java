@@ -24,7 +24,7 @@ public class RobotContainer {
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
-  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
+  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem(m_turretSubsystem);
 
   private final CommandXboxController m_primaryController = new CommandXboxController(0);
 

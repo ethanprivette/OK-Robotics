@@ -4,20 +4,23 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
-  private Talon m_elevatorMotor = new Talon(Constants.ELEVATOR_TALON_PWM);
+  private final TurretSubsystem m_turretSubsystem;
 
-  private Encoder m_elevatorEncoder = new Encoder(Constants.ELEVATOR_ENCODER_DIO_1, Constants.ELEVATOR_ENCODER_DIO_2);
+  private TalonSRX m_elevatorMotor = new TalonSRX(Constants.ELEVATOR_TALON_PWM);
 
   public enum KnownElevatorPos {
-    STOWED(10.0, 10.0);
+    STOWED(10.0, 10.0),
+    SETPOSE1(40.0, 20.0);
 
     public final double m_turretAngle;
     public final double m_elevatorPos;
@@ -29,16 +32,43 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   /** Creates a new ElevatorSubsystem. */
-  public ElevatorSubsystem() {
-    m_elevatorEncoder.setDistancePerPulse(Constants.HD_HEX_COUNTS_PER_DEGREE);
+  public ElevatorSubsystem(TurretSubsystem turretSubsystem) {
+    m_elevatorMotor.configFactoryDefault();
+    m_elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
+
+    m_turretSubsystem = turretSubsystem;
+  }
+
+  public void setTurrelavatorPos(final KnownElevatorPos pos) {
+    double currentElevator = m_elevatorMotor.getSelectedSensorPosition();
+
+    m_turretSubsystem.setTurretPos(pos.m_turretAngle);
+
+    if (currentElevator < pos.m_elevatorPos) {
+      m_elevatorMotor.configMotionAcceleration(Constants.ELEVATOR_VELO_UP, 0);
+      m_elevatorMotor.configMotionCruiseVelocity(Constants.ELEVATOR_VELO_UP, 0);
+
+      m_elevatorMotor.selectProfileSlot(0, 0);
+    } else {
+      m_elevatorMotor.configMotionAcceleration(Constants.ELEVATOR_VELO_DOWN, 0);
+      m_elevatorMotor.configMotionCruiseVelocity(Constants.ELEVATOR_VELO_DOWN, 0);
+
+      m_elevatorMotor.selectProfileSlot(1, 0);
+    }
+
+    m_elevatorMotor.set(TalonSRXControlMode.MotionMagic, pos.m_elevatorPos);
+  }
+
+  public void setElevatorPos(double targetPos) {
+    m_elevatorMotor.set(TalonSRXControlMode.MotionMagic, targetPos);
   }
 
   public void setManualElevatorSpeed(double elevatorSpeed) {
-    m_elevatorMotor.set(elevatorSpeed);
+    m_elevatorMotor.set(TalonSRXControlMode.Current, elevatorSpeed);
   }
 
   public boolean isElevatorStalled() {
-    return m_elevatorEncoder.getRate() < 500;
+    return m_elevatorMotor.getSelectedSensorVelocity() < 500;
   }
 
   public void zeroElevator() {
@@ -47,7 +77,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     new WaitUntilCommand(this::isElevatorStalled);
     
     setManualElevatorSpeed(0);
-    m_elevatorEncoder.reset();
+    m_elevatorMotor.setSelectedSensorPosition(0);
   }
 
   @Override

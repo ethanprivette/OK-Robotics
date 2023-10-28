@@ -41,6 +41,9 @@ public final class Constants {
     public static final int ELEVATOR_ENCODER_DIO_1 = 0;
     public static final int ELEVATOR_ENCODER_DIO_2 = 0;
 
+    public static final double ELEVATOR_VELO_UP = 0;
+    public static final double ELEVATOR_VELO_DOWN = 0;
+
     public static final double ELEVATOR_GEAR_RATIO = 75.0;
     public static final double ELEVATOR_ROTATIONS_PER_DEGREE = ELEVATOR_GEAR_RATIO / 360.0;
 
@@ -49,4 +52,7 @@ public final class Constants {
 
     public static final int TURRET_ENCODER_DIO_1 = 0;
     public static final int TURRET_ENCODER_DIO_2 = 0;
+
+    public static final double TURRET_VELO = 0;
+    public static final  double TURRET_ACCELERATION = 0;
 }
