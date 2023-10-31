@@ -48,11 +48,8 @@ public final class Constants {
     public static final double ELEVATOR_ROTATIONS_PER_DEGREE = ELEVATOR_GEAR_RATIO / 360.0;
 
 
-    public static final int TURRET_TALON_PWM = 0;
+    public static final int INTAKE_TALON_PWM = 0;
 
-    public static final int TURRET_ENCODER_DIO_1 = 0;
-    public static final int TURRET_ENCODER_DIO_2 = 0;
-
-    public static final double TURRET_VELO = 0;
-    public static final  double TURRET_ACCELERATION = 0;
+    public static final double BALL_INTAKE_SPEED = 0.7;
+    public static final double BALL_HOLD_SPEED = 0.3;
 }

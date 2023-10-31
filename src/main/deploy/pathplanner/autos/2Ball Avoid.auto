@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Avoid S1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score High"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Avoid S2"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Ball+Score2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Grab Ball"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null
+}

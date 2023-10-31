@@ -13,18 +13,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.ScoreHighBall;
+import frc.robot.commands.autonomous.BallPickup;
 import frc.robot.commands.autonomous.ClimbAuto;
 import frc.robot.commands.autonomous.DriveUntilCommand;
 import frc.robot.commands.autonomous.Turn90;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class RobotContainer {
 
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
-  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem(m_turretSubsystem);
+  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   private final CommandXboxController m_primaryController = new CommandXboxController(0);
 
@@ -37,13 +39,15 @@ public class RobotContainer {
       true),
       m_driveSubsystem));
   
-    m_autoChooser.setDefaultOption("Do Nothing", () -> new DriveUntilCommand(m_driveSubsystem, 0, () -> true));
+    m_autoChooser.setDefaultOption("Do Nothing", () -> new DriveUntilCommand(m_driveSubsystem, 0,() -> true));
 
     m_driveSubsystem.followTrajectoryCommand("Test", true);
 
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
     NamedCommands.registerCommand("Turn 90", new Turn90(m_driveSubsystem, true));
+    NamedCommands.registerCommand("Score High", new ScoreHighBall(m_elevatorSubsystem, m_intakeSubsystem));
+    NamedCommands.registerCommand("Grab Ball", new BallPickup(m_elevatorSubsystem, m_intakeSubsystem));
     
     configureBindings();
   }
@@ -59,14 +63,12 @@ public class RobotContainer {
     var autoCommandSupplier = m_autoChooser.getSelected();
     if (autoCommandSupplier != null) {
       return autoCommandSupplier.get()
-        .beforeStarting(() -> m_turretSubsystem.zeroTurret(), m_turretSubsystem)
         .beforeStarting(() -> m_elevatorSubsystem.zeroElevator(), m_elevatorSubsystem);
     }
     return null;
   }
 
   public void teleopInit() {
-    m_turretSubsystem.zeroTurret();
     m_elevatorSubsystem.zeroElevator();
   }
 }

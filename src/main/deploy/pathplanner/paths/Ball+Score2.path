@@ -1,0 +1,56 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.59,
+        "y": 2.46
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.1294377804177536,
+        "y": 3.6855572197629325
+      },
+      "isLocked": false
+    },
+    {
+      "anchor": {
+        "x": 1.14,
+        "y": 1.32
+      },
+      "prevControl": {
+        "x": 1.9580451127819547,
+        "y": 1.32
+      },
+      "nextControl": null,
+      "isLocked": false
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Ball Pickup",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.55,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 0.5,
+        "maxAngularVelocity": 540,
+        "maxAngularAcceleration": 720
+      }
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 1.5,
+    "maxAcceleration": 1.5,
+    "maxAngularVelocity": 540,
+    "maxAngularAcceleration": 720
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0
+  },
+  "reversed": false,
+  "folder": "Autos"
+}

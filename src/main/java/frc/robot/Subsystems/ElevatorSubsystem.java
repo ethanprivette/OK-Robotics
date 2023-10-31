@@ -14,35 +14,29 @@ import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
-  private final TurretSubsystem m_turretSubsystem;
-
   private TalonSRX m_elevatorMotor = new TalonSRX(Constants.ELEVATOR_TALON_PWM);
 
   public enum KnownElevatorPos {
-    STOWED(10.0, 10.0),
-    SETPOSE1(40.0, 20.0);
+    STOWED( 10.0),
+    BALLFLOOR(1.0),
+    SETPOSE1( 20.0),
+    SCOREHIGHBALL(40.0);
 
-    public final double m_turretAngle;
     public final double m_elevatorPos;
 
-    private KnownElevatorPos(double turretAngle, double elevatorPos) {
-      m_turretAngle = turretAngle;
+    private KnownElevatorPos(double elevatorPos) {
       m_elevatorPos = elevatorPos;
     }
   }
 
   /** Creates a new ElevatorSubsystem. */
-  public ElevatorSubsystem(TurretSubsystem turretSubsystem) {
+  public ElevatorSubsystem() {
     m_elevatorMotor.configFactoryDefault();
     m_elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
-
-    m_turretSubsystem = turretSubsystem;
   }
 
-  public void setTurrelavatorPos(final KnownElevatorPos pos) {
+  public void setElavatorPos(final KnownElevatorPos pos) {
     double currentElevator = m_elevatorMotor.getSelectedSensorPosition();
-
-    m_turretSubsystem.setTurretPos(pos.m_turretAngle);
 
     if (currentElevator < pos.m_elevatorPos) {
       m_elevatorMotor.configMotionAcceleration(Constants.ELEVATOR_VELO_UP, 0);
@@ -57,10 +51,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     m_elevatorMotor.set(TalonSRXControlMode.MotionMagic, pos.m_elevatorPos);
-  }
-
-  public void setElevatorPos(double targetPos) {
-    m_elevatorMotor.set(TalonSRXControlMode.MotionMagic, targetPos);
   }
 
   public void setManualElevatorSpeed(double elevatorSpeed) {
