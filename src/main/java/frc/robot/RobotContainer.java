@@ -41,7 +41,9 @@ public class RobotContainer {
   
     m_autoChooser.setDefaultOption("Do Nothing", () -> new DriveUntilCommand(m_driveSubsystem, 0,() -> true));
 
-    m_driveSubsystem.followTrajectoryCommand("Test", true);
+    m_autoChooser.addOption("2BallAvoid", () -> m_driveSubsystem.followTrajectoryCommand("2Ball Avoid"));
+
+    m_autoChooser.addOption("2Ball Free", () -> m_driveSubsystem.followTrajectoryCommand("2Ball Free"));
 
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
 

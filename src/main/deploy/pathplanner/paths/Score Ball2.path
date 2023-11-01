@@ -3,13 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.59,
-        "y": 2.46
+        "x": 3.54,
+        "y": 1.54
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1294377804177536,
-        "y": 3.6855572197629325
+        "x": 2.8265541294703467,
+        "y": 1.54
+      },
+      "isLocked": false
+    },
+    {
+      "anchor": {
+        "x": 1.79718045112782,
+        "y": 2.4493233082706767
+      },
+      "prevControl": {
+        "x": 2.1388345864661655,
+        "y": 2.5792481203007522
+      },
+      "nextControl": {
+        "x": 1.435730811986664,
+        "y": 2.311870628597279
       },
       "isLocked": false
     },
@@ -19,7 +34,7 @@
         "y": 1.32
       },
       "prevControl": {
-        "x": 1.9580451127819547,
+        "x": 1.5538345864661651,
         "y": 1.32
       },
       "nextControl": null,
@@ -27,19 +42,7 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Ball Pickup",
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.55,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 0.5,
-        "maxAngularVelocity": 540,
-        "maxAngularAcceleration": 720
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 1.5,
@@ -52,5 +55,6 @@
     "rotation": 0
   },
   "reversed": false,
-  "folder": "Autos"
+  "folder": "Avoid Autos",
+  "previewStartingState": null
 }

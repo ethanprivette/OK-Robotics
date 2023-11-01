@@ -106,7 +106,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_field.setRobotPose(getPose());
   }
 
-  public Command followTrajectoryCommand(String pathName, boolean isFirstPath) {
+  public Command followTrajectoryCommand(String pathName) {
     PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
 
     return new FollowPathWithEvents(

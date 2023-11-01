@@ -3,7 +3,8 @@
   "robotLength": 0.4064,
   "holonomicMode": false,
   "pathFolders": [
-    "Autos"
+    "Avoid Autos",
+    "Straight Autos"
   ],
   "autoFolders": []
 }

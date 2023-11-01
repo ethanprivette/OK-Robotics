@@ -25,7 +25,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public double getRollerVelo() {
-    return m_intakeMotor.getMotorOutputPercent();
+    return m_intakeMotor.getSelectedSensorVelocity();
   }
 
   @Override

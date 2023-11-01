@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6865037593984962,
-        "y": 2.95
+        "x": 4.1,
+        "y": 1.16
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6865037593984962,
-        "y": 2.95
+        "x": 3.5999999999999996,
+        "y": 1.16
       },
       "isLocked": false
     },
     {
       "anchor": {
-        "x": 0.83,
-        "y": 2.95
+        "x": 1.14,
+        "y": 1.32
       },
       "prevControl": {
-        "x": 0.83,
-        "y": 2.95
+        "x": 2.6606906325745556,
+        "y": 1.3199999999999998
       },
       "nextControl": null,
       "isLocked": false
@@ -30,8 +30,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 1.6,
+    "maxAcceleration": 1.6,
     "maxAngularVelocity": 540,
     "maxAngularAcceleration": 720
   },
@@ -40,5 +40,6 @@
     "rotation": 0
   },
   "reversed": false,
-  "folder": null
+  "folder": "Straight Autos",
+  "previewStartingState": null
 }
