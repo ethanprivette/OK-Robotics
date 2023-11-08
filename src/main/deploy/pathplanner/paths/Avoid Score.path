@@ -1,0 +1,44 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.8982330827067673,
+        "y": 2.4204511278195486
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.1956766917293233,
+        "y": 2.458947368421053
+      },
+      "isLocked": false
+    },
+    {
+      "anchor": {
+        "x": 1.14,
+        "y": 1.35
+      },
+      "prevControl": {
+        "x": 1.6399994746122795,
+        "y": 1.3507248361500541
+      },
+      "nextControl": null,
+      "isLocked": false
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 1.5,
+    "maxAcceleration": 1.5,
+    "maxAngularVelocity": 540,
+    "maxAngularAcceleration": 720
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0
+  },
+  "reversed": false,
+  "folder": "New Path Strat"
+}

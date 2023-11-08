@@ -17,6 +17,7 @@ import frc.robot.commands.ScoreHighBall;
 import frc.robot.commands.autonomous.BallPickup;
 import frc.robot.commands.autonomous.ClimbAuto;
 import frc.robot.commands.autonomous.DriveUntilCommand;
+import frc.robot.commands.autonomous.SubBallPickup;
 import frc.robot.commands.autonomous.Turn90;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -50,6 +51,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Turn 90", new Turn90(m_driveSubsystem, true));
     NamedCommands.registerCommand("Score High", new ScoreHighBall(m_elevatorSubsystem, m_intakeSubsystem));
     NamedCommands.registerCommand("Grab Ball", new BallPickup(m_elevatorSubsystem, m_intakeSubsystem));
+    NamedCommands.registerCommand("Sub Ball", new SubBallPickup(m_elevatorSubsystem, m_intakeSubsystem));
     
     configureBindings();
   }

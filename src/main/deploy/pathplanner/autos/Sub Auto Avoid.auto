@@ -30,46 +30,15 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Avoid S2 Ground"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Grab Ball"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Turn 90"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Turn 90"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Score Ball2"
+            "pathName": "Avoid S2 Sub"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Score High"
+            "name": "Sub Ball"
           }
         }
       ]

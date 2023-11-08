@@ -19,6 +19,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public enum KnownElevatorPos {
     STOWED( 10.0),
     BALLFLOOR(1.0),
+    BALLSUB(15.0),
     SETPOSE1( 20.0),
     SCOREHIGHBALL(40.0);
 

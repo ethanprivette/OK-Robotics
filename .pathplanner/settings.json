@@ -4,7 +4,11 @@
   "holonomicMode": false,
   "pathFolders": [
     "Avoid Autos",
+    "New Path Strat",
     "Straight Autos"
   ],
-  "autoFolders": []
+  "autoFolders": [
+    "Auto Paths",
+    "New aUTOS"
+  ]
 }

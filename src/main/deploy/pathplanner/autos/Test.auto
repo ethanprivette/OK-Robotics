@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 3.341842105263158,
+      "y": 1.318496240601504
+    },
+    "rotation": 180.0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -8,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Avoid S1"
+            "pathName": "Score Line"
           }
         },
         {
@@ -36,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Avoid S2 Ground"
+                  "pathName": "Ball1 Grab"
                 }
               },
               {
@@ -63,7 +69,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Score Ball2"
+            "pathName": "Score Line"
           }
         },
         {
@@ -75,5 +81,5 @@
       ]
     }
   },
-  "folder": "Auto Paths"
+  "folder": "New aUTOS"
 }

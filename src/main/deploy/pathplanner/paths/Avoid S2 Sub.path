@@ -1,0 +1,59 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.14,
+        "y": 1.32
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.4509134859009558,
+        "y": 1.32
+      },
+      "isLocked": false
+    },
+    {
+      "anchor": {
+        "x": 1.9271052631583465,
+        "y": 2.391578947370574
+      },
+      "prevControl": {
+        "x": 1.593914483974966,
+        "y": 2.3725394742757837
+      },
+      "nextControl": {
+        "x": 2.4323684210526313,
+        "y": 2.4204511278195486
+      },
+      "isLocked": false
+    },
+    {
+      "anchor": {
+        "x": 3.55,
+        "y": 1.05
+      },
+      "prevControl": {
+        "x": 3.55,
+        "y": 1.5500000000000003
+      },
+      "nextControl": null,
+      "isLocked": false
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 1.5,
+    "maxAcceleration": 1.5,
+    "maxAngularVelocity": 540,
+    "maxAngularAcceleration": 720
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0
+  },
+  "reversed": false,
+  "folder": "Avoid Autos"
+}
