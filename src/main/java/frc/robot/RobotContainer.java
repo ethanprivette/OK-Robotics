@@ -43,6 +43,9 @@ public class RobotContainer {
       modifyAxis(m_primaryController.getRightX()) * Constants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
       true),
       m_driveSubsystem));
+
+    m_elevatorSubsystem.setDefaultCommand(
+      new RunCommand(() -> m_elevatorSubsystem.proceedToElevatorPos(), m_elevatorSubsystem));
   
     m_autoChooser.setDefaultOption("Do Nothing", () -> new DriveUntilCommand(m_driveSubsystem, 0,() -> true));
 

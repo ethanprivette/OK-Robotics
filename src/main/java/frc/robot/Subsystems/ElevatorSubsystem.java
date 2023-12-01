@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,7 +15,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private PWMVictorSPX m_elevatorMotor = new PWMVictorSPX(Constants.ELEVATOR_TALON_PWM);
 
+  private final PIDController m_positionController = new PIDController(0.1, 0, 0);
+
   private Encoder m_elevatorEncoder = new Encoder(Constants.ELEVATOR_ENCODER_DIO_1, Constants.ELEVATOR_ENCODER_DIO_2);
+
+  private double m_targetSetpoint;
 
   public enum KnownElevatorPos {
     STOWED( 10.0),
@@ -32,9 +37,18 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem() {
+    m_positionController.disableContinuousInput();
   }
 
   public void setElavatorPos(final KnownElevatorPos pos) {
+    m_targetSetpoint = pos.m_elevatorPos;
+  }
+
+  public void proceedToElevatorPos() {
+    double currentDegrees = m_elevatorEncoder.get();
+
+    double output = m_positionController.calculate(currentDegrees, m_targetSetpoint);
+    m_elevatorMotor.setVoltage(output);
   }
 
   public void setManualElevatorSpeed(double elevatorSpeed) {
