@@ -5,16 +5,19 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
-  private TalonSRX m_elevatorMotor = new TalonSRX(Constants.ELEVATOR_TALON_PWM);
+  private VictorSPX m_elevatorMotor = new VictorSPX(Constants.ELEVATOR_TALON_PWM);
+
+  private Encoder m_elevatorEncoder = new Encoder(Constants.ELEVATOR_ENCODER_DIO_1, Constants.ELEVATOR_ENCODER_DIO_2);
 
   public enum KnownElevatorPos {
     STOWED( 10.0),
@@ -33,33 +36,20 @@ public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem() {
     m_elevatorMotor.configFactoryDefault();
-    m_elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
+    m_elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    m_elevatorMotor.configMotionAcceleration(1.0, 0);
   }
 
   public void setElavatorPos(final KnownElevatorPos pos) {
-    double currentElevator = m_elevatorMotor.getSelectedSensorPosition();
-
-    if (currentElevator < pos.m_elevatorPos) {
-      m_elevatorMotor.configMotionAcceleration(Constants.ELEVATOR_VELO_UP, 0);
-      m_elevatorMotor.configMotionCruiseVelocity(Constants.ELEVATOR_VELO_UP, 0);
-
-      m_elevatorMotor.selectProfileSlot(0, 0);
-    } else {
-      m_elevatorMotor.configMotionAcceleration(Constants.ELEVATOR_VELO_DOWN, 0);
-      m_elevatorMotor.configMotionCruiseVelocity(Constants.ELEVATOR_VELO_DOWN, 0);
-
-      m_elevatorMotor.selectProfileSlot(1, 0);
-    }
-
-    m_elevatorMotor.set(TalonSRXControlMode.MotionMagic, pos.m_elevatorPos);
+    m_elevatorMotor.set(VictorSPXControlMode.MotionMagic, pos.m_elevatorPos);
   }
 
   public void setManualElevatorSpeed(double elevatorSpeed) {
-    m_elevatorMotor.set(TalonSRXControlMode.Current, elevatorSpeed);
+    m_elevatorMotor.set(VictorSPXControlMode.PercentOutput, elevatorSpeed);
   }
 
   public boolean isElevatorStalled() {
-    return m_elevatorMotor.getSelectedSensorVelocity() < 500;
+    return m_elevatorEncoder.getRate() < 8;
   }
 
   public void zeroElevator() {

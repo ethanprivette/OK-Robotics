@@ -11,6 +11,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ScoreHighBall;
@@ -57,6 +58,12 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
+    m_primaryController.povUp()
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(0.1), m_elevatorSubsystem));
+
+    m_primaryController.povDown()
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(-0.1), m_elevatorSubsystem));
 
     m_primaryController.leftStick().and(m_primaryController.rightStick())
       .onTrue(new ClimbAuto(m_driveSubsystem, 1));
