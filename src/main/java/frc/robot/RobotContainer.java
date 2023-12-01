@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ScoreHighBall;
+import frc.robot.commands.ZeroElevatorCommand;
 import frc.robot.commands.autonomous.BallPickup;
 import frc.robot.commands.autonomous.DriveUntilCommand;
 import frc.robot.commands.autonomous.SubBallPickup;
@@ -93,7 +94,7 @@ public class RobotContainer {
 
     // m_primaryController.leftStick().and(m_primaryController.rightStick())
     m_primaryController.a()
-      .whileTrue(new InstantCommand(() -> m_elevatorSubsystem.zeroElevator(), m_elevatorSubsystem));
+      .whileTrue(new ZeroElevatorCommand(m_elevatorSubsystem));
   }
 
   private void changeBallMode(boolean bool) {
@@ -104,13 +105,12 @@ public class RobotContainer {
     var autoCommandSupplier = m_autoChooser.getSelected();
     if (autoCommandSupplier != null) {
       return autoCommandSupplier.get()
-        .beforeStarting(() -> m_elevatorSubsystem.zeroElevator(), m_elevatorSubsystem);
+        .beforeStarting(new ZeroElevatorCommand(m_elevatorSubsystem));
     }
     return null;
   }
 
   public void teleopInit() {
-    m_elevatorSubsystem.zeroElevator();
   }
 
   private static double modifyAxis(double value) {

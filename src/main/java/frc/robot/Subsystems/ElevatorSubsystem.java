@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
@@ -45,14 +43,6 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public boolean isElevatorStalled() {
     return m_elevatorEncoder.getStopped();
-  }
-
-  public void zeroElevator() {
-    setManualElevatorSpeed(0.4);
-
-    new WaitCommand(2.5);
-    
-    setManualElevatorSpeed(0.0);
   }
 
   @Override
