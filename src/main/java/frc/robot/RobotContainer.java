@@ -24,6 +24,7 @@ import frc.robot.commands.autonomous.Turn90;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem.KnownElevatorPos;
 
 public class RobotContainer {
 
@@ -98,6 +99,22 @@ public class RobotContainer {
     // m_primaryController.leftStick().and(m_primaryController.rightStick())
     m_primaryController.a()
       .whileTrue(new ZeroElevatorCommand(m_elevatorSubsystem));
+
+    m_primaryController.b()
+      .onTrue(new InstantCommand(() ->
+        m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.TEST1), 
+        m_elevatorSubsystem));
+
+    m_primaryController.x()
+      .onTrue(new InstantCommand(() ->
+        m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.TEST2), 
+        m_elevatorSubsystem));
+
+    m_primaryController.povRight()
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.nudgeElevator(5), m_elevatorSubsystem));
+
+    m_primaryController.povLeft()
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.nudgeElevator(-5), m_elevatorSubsystem));
   }
 
   private void changeBallMode(boolean bool) {
@@ -114,6 +131,7 @@ public class RobotContainer {
   }
 
   public void teleopInit() {
+    new ZeroElevatorCommand(m_elevatorSubsystem);
   }
 
   private static double modifyAxis(double value) {

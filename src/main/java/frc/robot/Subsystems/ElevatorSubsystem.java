@@ -15,18 +15,20 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private PWMVictorSPX m_elevatorMotor = new PWMVictorSPX(Constants.ELEVATOR_TALON_PWM);
 
-  private final PIDController m_positionController = new PIDController(0.1, 0, 0);
+  private final PIDController m_positionController = new PIDController(0.08, 0, 0);
 
   private Encoder m_elevatorEncoder = new Encoder(Constants.ELEVATOR_ENCODER_DIO_1, Constants.ELEVATOR_ENCODER_DIO_2);
 
   private double m_targetSetpoint;
 
   public enum KnownElevatorPos {
-    STOWED( 10.0),
+    STOWED(10.0),
     BALLFLOOR(1.0),
     BALLSUB(15.0),
-    SETPOSE1( 20.0),
-    SCOREHIGHBALL(40.0);
+    SETPOSE1(20.0),
+    SCOREHIGHBALL(40.0),
+    TEST1(70.0),
+    TEST2(170);
 
     public final double m_elevatorPos;
 
@@ -38,6 +40,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem() {
     m_positionController.disableContinuousInput();
+    m_positionController.setTolerance(1);
   }
 
   public void setElavatorPos(final KnownElevatorPos pos) {
@@ -47,8 +50,18 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void proceedToElevatorPos() {
     double currentDegrees = m_elevatorEncoder.get();
 
+    if (m_targetSetpoint < currentDegrees) {
+      m_positionController.setP(0.125);
+    } else {
+      m_positionController.setP(0.08);
+    }
+
     double output = m_positionController.calculate(currentDegrees, m_targetSetpoint);
-    m_elevatorMotor.setVoltage(output);
+    m_elevatorMotor.set(-output);
+  }
+
+  public void nudgeElevator(double ticks) {
+    m_targetSetpoint += ticks;
   }
 
   public void setManualElevatorSpeed(double elevatorSpeed) {
@@ -59,10 +72,15 @@ public class ElevatorSubsystem extends SubsystemBase {
     return m_elevatorEncoder.getStopped();
   }
 
+  public void resetEncoder() {
+    m_elevatorEncoder.reset();
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Elevator Encoder Pos", m_elevatorEncoder.get());
     SmartDashboard.putNumber("Elevator Encoder Rate", m_elevatorEncoder.getRate());
     SmartDashboard.putBoolean("Elevator Encoder Stopped", m_elevatorEncoder.getStopped());
+    SmartDashboard.putNumber("Elevator Target Setpoint", m_targetSetpoint);
   }
 }
