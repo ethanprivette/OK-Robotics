@@ -4,28 +4,22 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  private TalonSRX m_intakeMotor = new TalonSRX(Constants.INTAKE_TALON_PWM);
+  private PWMTalonSRX m_intakeMotor = new PWMTalonSRX(Constants.INTAKE_TALON_PWM);
 
-  public IntakeSubsystem() {
-    m_intakeMotor.configFactoryDefault();
-    m_intakeMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
-  }
+  public IntakeSubsystem() {  }
 
   public void setRollerSpeed(double speed) {
-    m_intakeMotor.set(TalonSRXControlMode.PercentOutput, speed);
+    m_intakeMotor.set(speed);
   }
 
   public double getRollerVelo() {
-    return m_intakeMotor.getSelectedSensorVelocity();
+    return m_intakeMotor.get();
   }
 
   @Override

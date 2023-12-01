@@ -16,7 +16,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,8 +30,8 @@ public class DriveSubsystem extends SubsystemBase {
   private Encoder m_leftEncoder = new Encoder(Constants.LEFT_ENCODER_DIO_1, Constants.LEFT_ENCODER_DIO_2);
   private Encoder m_rightEncoder = new Encoder(Constants.RIGHT_ENCODER_DIO_1, Constants.RIGHT_ENCODER_DIO_2);
 
-  private Talon m_left = new Talon(Constants.LEFT_TALON_PWM);
-  private Talon m_right = new Talon(Constants.RIGHT_TALON_PWM);
+  private PWMTalonSRX m_left = new PWMTalonSRX(Constants.LEFT_TALON_PWM);
+  private PWMTalonSRX m_right = new PWMTalonSRX(Constants.RIGHT_TALON_PWM);
 
   private DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 
@@ -101,7 +101,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+    SmartDashboard.putNumber("Gyro Something", m_gyro.getRoll());
 
     m_field.setRobotPose(getPose());
   }

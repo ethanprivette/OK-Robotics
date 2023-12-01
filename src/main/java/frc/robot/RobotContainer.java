@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ScoreHighBall;
 import frc.robot.commands.autonomous.BallPickup;
-import frc.robot.commands.autonomous.ClimbAuto;
 import frc.robot.commands.autonomous.DriveUntilCommand;
 import frc.robot.commands.autonomous.SubBallPickup;
 import frc.robot.commands.autonomous.Turn90;
@@ -34,10 +34,12 @@ public class RobotContainer {
 
   private final SendableChooser<Supplier<Command>> m_autoChooser = new SendableChooser<>();
 
+  private boolean ballMode = true;
+
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.drive(
-      m_primaryController.getLeftY() * Constants.MAX_VELOCITY_METERS_PER_SECOND,
-      m_primaryController.getRightX() * Constants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+      modifyAxis(m_primaryController.getLeftY()) * Constants.MAX_VELOCITY_METERS_PER_SECOND,
+      modifyAxis(m_primaryController.getRightX()) * Constants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
       true),
       m_driveSubsystem));
   
@@ -60,14 +62,42 @@ public class RobotContainer {
   private void configureBindings() {
 
     m_primaryController.povUp()
-      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(0.1), m_elevatorSubsystem));
+      .whileTrue(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(0.75), m_elevatorSubsystem))
+      .onFalse(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(0.0), m_elevatorSubsystem));
 
     m_primaryController.povDown()
-      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(-0.1), m_elevatorSubsystem));
+      .whileTrue(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(-0.5), m_elevatorSubsystem))
+      .onFalse(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(0.0), m_elevatorSubsystem));
 
-    m_primaryController.leftStick().and(m_primaryController.rightStick())
-      .onTrue(new ClimbAuto(m_driveSubsystem, 1));
-      
+    m_primaryController.rightBumper().and(() -> ballMode)
+      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.5), m_intakeSubsystem))
+      .onFalse(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));    
+
+    m_primaryController.leftBumper().and(() -> ballMode)
+      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(-0.5), m_intakeSubsystem))
+      .onFalse(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));
+
+    m_primaryController.rightBumper().and(() -> !ballMode)
+      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(-0.5), m_intakeSubsystem))
+      .onFalse(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));    
+
+    m_primaryController.leftBumper().and(() -> !ballMode)
+      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.5), m_intakeSubsystem))
+      .onFalse(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));
+
+    m_primaryController.start()
+      .onTrue(new InstantCommand(() -> changeBallMode(false)));   
+
+    m_primaryController.back()
+      .onTrue(new InstantCommand(() -> changeBallMode(true)));
+
+    // m_primaryController.leftStick().and(m_primaryController.rightStick())
+    m_primaryController.a()
+      .whileTrue(new InstantCommand(() -> m_elevatorSubsystem.zeroElevator(), m_elevatorSubsystem));
+  }
+
+  private void changeBallMode(boolean bool) {
+    ballMode = bool;
   }
 
   public Command getAutonomousCommand() {
@@ -81,5 +111,9 @@ public class RobotContainer {
 
   public void teleopInit() {
     m_elevatorSubsystem.zeroElevator();
+  }
+
+  private static double modifyAxis(double value) {
+    return MathUtil.applyDeadband(value, 0.1);
   }
 }

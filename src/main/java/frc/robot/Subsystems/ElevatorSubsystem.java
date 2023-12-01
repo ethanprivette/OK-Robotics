@@ -4,18 +4,17 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
-  private VictorSPX m_elevatorMotor = new VictorSPX(Constants.ELEVATOR_TALON_PWM);
+  private PWMVictorSPX m_elevatorMotor = new PWMVictorSPX(Constants.ELEVATOR_TALON_PWM);
 
   private Encoder m_elevatorEncoder = new Encoder(Constants.ELEVATOR_ENCODER_DIO_1, Constants.ELEVATOR_ENCODER_DIO_2);
 
@@ -35,33 +34,31 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem() {
-    m_elevatorMotor.configFactoryDefault();
-    m_elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    m_elevatorMotor.configMotionAcceleration(1.0, 0);
   }
 
   public void setElavatorPos(final KnownElevatorPos pos) {
-    m_elevatorMotor.set(VictorSPXControlMode.MotionMagic, pos.m_elevatorPos);
   }
 
   public void setManualElevatorSpeed(double elevatorSpeed) {
-    m_elevatorMotor.set(VictorSPXControlMode.PercentOutput, elevatorSpeed);
+    m_elevatorMotor.set(elevatorSpeed);
   }
 
   public boolean isElevatorStalled() {
-    return m_elevatorEncoder.getRate() < 8;
+    return m_elevatorEncoder.getStopped();
   }
 
   public void zeroElevator() {
-    setManualElevatorSpeed(0.1);
+    setManualElevatorSpeed(0.4);
 
-    new WaitUntilCommand(this::isElevatorStalled);
+    new WaitCommand(2.5);
     
-    setManualElevatorSpeed(0);
-    m_elevatorMotor.setSelectedSensorPosition(0);
+    setManualElevatorSpeed(0.0);
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Elevator Encoder Pos", m_elevatorEncoder.get());
+    SmartDashboard.putNumber("Elevator Encoder Rate", m_elevatorEncoder.getRate());
+    SmartDashboard.putBoolean("Elevator Encoder Stopped", m_elevatorEncoder.getStopped());
   }
 }
