@@ -66,29 +66,42 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    m_primaryController.povUp()
-      .whileTrue(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(0.75), m_elevatorSubsystem))
-      .onFalse(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(0.0), m_elevatorSubsystem));
+    m_primaryController.a().and(() -> ballMode)
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.SCORELOWBALL), m_elevatorSubsystem));
 
-    m_primaryController.povDown()
-      .whileTrue(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(-0.5), m_elevatorSubsystem))
-      .onFalse(new InstantCommand(() -> m_elevatorSubsystem.setManualElevatorSpeed(0.0), m_elevatorSubsystem));
+    m_primaryController.a().and(() -> !ballMode)
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.FLAGLOW), m_elevatorSubsystem));
+
+    m_primaryController.b().and(() -> ballMode)
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.BALLSUB), m_elevatorSubsystem));
+
+    m_primaryController.a().and(() -> !ballMode)
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.FLAGSUB), m_elevatorSubsystem));
+
+    m_primaryController.x()
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.STOWED), m_elevatorSubsystem));
+
+    m_primaryController.y().and(() -> ballMode)
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.SCOREHIGHBALL), m_elevatorSubsystem));
+
+    m_primaryController.y().and(() -> !ballMode)
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.FLAGHIGH), m_elevatorSubsystem));
 
     m_primaryController.rightBumper().and(() -> ballMode)
-      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.5), m_intakeSubsystem))
-      .onFalse(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));    
+      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.5), m_intakeSubsystem));
 
     m_primaryController.leftBumper().and(() -> ballMode)
-      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(-0.5), m_intakeSubsystem))
-      .onFalse(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));
+      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(-0.5), m_intakeSubsystem));
 
     m_primaryController.rightBumper().and(() -> !ballMode)
-      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(-0.5), m_intakeSubsystem))
-      .onFalse(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));    
+      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(-0.5), m_intakeSubsystem));
 
     m_primaryController.leftBumper().and(() -> !ballMode)
-      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.5), m_intakeSubsystem))
-      .onFalse(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));
+      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.5), m_intakeSubsystem));
+
+    m_primaryController.leftTrigger()
+      .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.BALLFLOOR), m_elevatorSubsystem)
+      .alongWith(new InstantCommand(() -> changeBallMode(true))));
 
     m_primaryController.start()
       .onTrue(new InstantCommand(() -> changeBallMode(false)));   
@@ -96,16 +109,15 @@ public class RobotContainer {
     m_primaryController.back()
       .onTrue(new InstantCommand(() -> changeBallMode(true)));
 
-    // m_primaryController.leftStick().and(m_primaryController.rightStick())
-    m_primaryController.a()
+    m_primaryController.rightStick()
       .whileTrue(new ZeroElevatorCommand(m_elevatorSubsystem));
 
-    m_primaryController.b()
+    m_primaryController.povUp()
       .onTrue(new InstantCommand(() ->
         m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.TEST1), 
         m_elevatorSubsystem));
 
-    m_primaryController.x()
+    m_primaryController.povDown()
       .onTrue(new InstantCommand(() ->
         m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.TEST2), 
         m_elevatorSubsystem));
@@ -115,6 +127,9 @@ public class RobotContainer {
 
     m_primaryController.povLeft()
       .onTrue(new InstantCommand(() -> m_elevatorSubsystem.nudgeElevator(-5), m_elevatorSubsystem));
+
+    m_intakeSubsystem.setDefaultCommand(
+      new RunCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));
   }
 
   private void changeBallMode(boolean bool) {

@@ -32,6 +32,7 @@ public class ZeroElevatorCommand extends Command {
   public void end(boolean interrupted) {
     m_elevatorSubsystem.setManualElevatorSpeed(0.0);
     m_elevatorSubsystem.resetEncoder();
+    m_elevatorSubsystem.resetPID();
   }
 
   // Returns true when the command should end.

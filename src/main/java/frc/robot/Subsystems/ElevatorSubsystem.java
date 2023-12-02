@@ -22,11 +22,14 @@ public class ElevatorSubsystem extends SubsystemBase {
   private double m_targetSetpoint;
 
   public enum KnownElevatorPos {
-    STOWED(10.0),
-    BALLFLOOR(1.0),
-    BALLSUB(15.0),
-    SETPOSE1(20.0),
-    SCOREHIGHBALL(40.0),
+    STOWED(150.0),
+    BALLFLOOR(180.0),
+    BALLSUB(150.0),
+    SCORELOWBALL(170.0),
+    SCOREHIGHBALL(25.0),
+    FLAGSUB(25.0),
+    FLAGLOW(100.0),
+    FLAGHIGH(5.0),
     TEST1(70.0),
     TEST2(170);
 
@@ -70,6 +73,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public boolean isElevatorStalled() {
     return m_elevatorEncoder.getStopped();
+  }
+
+  public void resetPID() {
+    m_positionController.setSetpoint(0.0);
   }
 
   public void resetEncoder() {
