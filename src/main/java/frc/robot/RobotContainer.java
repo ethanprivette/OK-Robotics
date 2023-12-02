@@ -40,7 +40,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.drive(
-      modifyAxis(m_primaryController.getLeftY()) * Constants.MAX_VELOCITY_METERS_PER_SECOND,
+      modifyAxis(-m_primaryController.getLeftY()) * Constants.MAX_VELOCITY_METERS_PER_SECOND,
       modifyAxis(m_primaryController.getRightX()) * Constants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
       true),
       m_driveSubsystem));
@@ -88,16 +88,16 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.FLAGHIGH), m_elevatorSubsystem));
 
     m_primaryController.rightBumper().and(() -> ballMode)
-      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.5), m_intakeSubsystem));
+      .whileTrue(new RunCommand(() -> m_intakeSubsystem.setRollerSpeed(0.75), m_intakeSubsystem));
 
     m_primaryController.leftBumper().and(() -> ballMode)
-      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(-0.5), m_intakeSubsystem));
+      .whileTrue(new RunCommand(() -> m_intakeSubsystem.setRollerSpeed(-0.75), m_intakeSubsystem));
 
     m_primaryController.rightBumper().and(() -> !ballMode)
-      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(-0.5), m_intakeSubsystem));
+      .whileTrue(new RunCommand(() -> m_intakeSubsystem.setRollerSpeed(0.-75), m_intakeSubsystem));
 
     m_primaryController.leftBumper().and(() -> !ballMode)
-      .whileTrue(new InstantCommand(() -> m_intakeSubsystem.setRollerSpeed(0.5), m_intakeSubsystem));
+      .whileTrue(new RunCommand(() -> m_intakeSubsystem.setRollerSpeed(0.75), m_intakeSubsystem));
 
     m_primaryController.leftTrigger()
       .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.BALLFLOOR), m_elevatorSubsystem)
@@ -129,7 +129,7 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> m_elevatorSubsystem.nudgeElevator(-5), m_elevatorSubsystem));
 
     m_intakeSubsystem.setDefaultCommand(
-      new RunCommand(() -> m_intakeSubsystem.setRollerSpeed(0.0), m_intakeSubsystem));
+      new RunCommand(() -> m_intakeSubsystem.setRollerSpeed(0.01), m_intakeSubsystem));
   }
 
   private void changeBallMode(boolean bool) {

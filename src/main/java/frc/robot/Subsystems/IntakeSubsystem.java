@@ -12,7 +12,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private PWMTalonSRX m_intakeMotor = new PWMTalonSRX(Constants.INTAKE_TALON_PWM);
 
-  public IntakeSubsystem() {  }
+  public IntakeSubsystem() {
+    m_intakeMotor.setInverted(false);
+  }
 
   public void setRollerSpeed(double speed) {
     m_intakeMotor.set(speed);

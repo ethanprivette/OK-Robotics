@@ -15,7 +15,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private PWMVictorSPX m_elevatorMotor = new PWMVictorSPX(Constants.ELEVATOR_TALON_PWM);
 
-  private final PIDController m_positionController = new PIDController(0.08, 0, 0);
+  private final PIDController m_positionController = new PIDController(0, 0, 0);
 
   private Encoder m_elevatorEncoder = new Encoder(Constants.ELEVATOR_ENCODER_DIO_1, Constants.ELEVATOR_ENCODER_DIO_2);
 
@@ -23,7 +23,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public enum KnownElevatorPos {
     STOWED(150.0),
-    BALLFLOOR(180.0),
+    BALLFLOOR(220.0),
     BALLSUB(150.0),
     SCORELOWBALL(170.0),
     SCOREHIGHBALL(25.0),
@@ -54,9 +54,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     double currentDegrees = m_elevatorEncoder.get();
 
     if (m_targetSetpoint < currentDegrees) {
-      m_positionController.setP(0.125);
+      m_positionController.setP(0.15);
     } else {
-      m_positionController.setP(0.08);
+      m_positionController.setP(0.1);
     }
 
     double output = m_positionController.calculate(currentDegrees, m_targetSetpoint);
