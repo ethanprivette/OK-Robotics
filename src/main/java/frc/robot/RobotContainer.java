@@ -75,7 +75,7 @@ public class RobotContainer {
     m_primaryController.b().and(() -> ballMode)
       .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.BALLSUB), m_elevatorSubsystem));
 
-    m_primaryController.a().and(() -> !ballMode)
+    m_primaryController.b().and(() -> !ballMode)
       .onTrue(new InstantCommand(() -> m_elevatorSubsystem.setElavatorPos(KnownElevatorPos.FLAGSUB), m_elevatorSubsystem));
 
     m_primaryController.x()
