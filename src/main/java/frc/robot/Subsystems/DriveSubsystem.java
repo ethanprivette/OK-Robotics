@@ -17,7 +17,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,8 +36,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   private DifferentialDriveOdometry m_odometry;
 
-  private Field2d m_field = new Field2d();
-
   private double m_xMetersPerSec = 0;
   private double m_zRadPerSec = 0;
 
@@ -52,8 +49,6 @@ public class DriveSubsystem extends SubsystemBase {
       m_leftEncoder.getDistance(),
       m_rightEncoder.getDistance(),
       new Pose2d());
-
-    SmartDashboard.putData("Field", m_field);
   }
 
   public void drive(double xRequest, double rotRequest, boolean turnInPlace) {
@@ -101,9 +96,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Gyro Something", m_gyro.getRoll());
+    SmartDashboard.putNumber("Gyro Something", m_gyro.getYaw());
 
-    m_field.setRobotPose(getPose());
+    SmartDashboard.putNumber("DriveL Encoder", m_leftEncoder.get());
+    SmartDashboard.putNumber("DriveR Encoder", m_rightEncoder.get());
   }
 
   public Command followTrajectoryCommand(String pathName) {

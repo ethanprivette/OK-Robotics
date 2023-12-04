@@ -41,7 +41,7 @@ public class RobotContainer {
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.drive(
       modifyAxis(-m_primaryController.getLeftY()) * Constants.MAX_VELOCITY_METERS_PER_SECOND,
-      modifyAxis(m_primaryController.getRightX()) * Constants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+      modifyAxis(m_primaryController.getRightX()), // * Constants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
       true),
       m_driveSubsystem));
 
@@ -49,6 +49,8 @@ public class RobotContainer {
       new RunCommand(() -> m_elevatorSubsystem.proceedToElevatorPos(), m_elevatorSubsystem));
   
     m_autoChooser.setDefaultOption("Do Nothing", () -> new DriveUntilCommand(m_driveSubsystem, 0,() -> true));
+
+    m_autoChooser.addOption("Forward 1 sec", () -> new DriveUntilCommand(m_driveSubsystem, 1, () -> false).withTimeout(1));
 
     m_autoChooser.addOption("2BallAvoid", () -> m_driveSubsystem.followTrajectoryCommand("2Ball Avoid"));
 
@@ -129,7 +131,7 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> m_elevatorSubsystem.nudgeElevator(-5), m_elevatorSubsystem));
 
     m_intakeSubsystem.setDefaultCommand(
-      new RunCommand(() -> m_intakeSubsystem.setRollerSpeed(0.01), m_intakeSubsystem));
+      new RunCommand(() -> m_intakeSubsystem.setRollerSpeed(0.05), m_intakeSubsystem));
   }
 
   private void changeBallMode(boolean bool) {
@@ -139,8 +141,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     var autoCommandSupplier = m_autoChooser.getSelected();
     if (autoCommandSupplier != null) {
-      return autoCommandSupplier.get()
-        .beforeStarting(new ZeroElevatorCommand(m_elevatorSubsystem));
+      return autoCommandSupplier.get();
     }
     return null;
   }
@@ -149,7 +150,13 @@ public class RobotContainer {
     new ZeroElevatorCommand(m_elevatorSubsystem);
   }
 
+  public void perdiodic() {
+    SmartDashboard.putBoolean("Ball Mode", ballMode);
+  }
+
   private static double modifyAxis(double value) {
-    return MathUtil.applyDeadband(value, 0.1);
+    value = MathUtil.applyDeadband(value, 0.1);
+
+    return value * 0.65;
   }
 }

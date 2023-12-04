@@ -24,7 +24,7 @@ public class ZeroElevatorCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_elevatorSubsystem.setManualElevatorSpeed(0.3);
+    m_elevatorSubsystem.setManualElevatorSpeed(0.25);
   }
 
   // Called once the command ends or is interrupted.

@@ -23,13 +23,13 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public enum KnownElevatorPos {
     STOWED(150.0),
-    BALLFLOOR(220.0),
+    BALLFLOOR(250.0),
     BALLSUB(150.0),
     SCORELOWBALL(170.0),
-    SCOREHIGHBALL(25.0),
+    SCOREHIGHBALL(5.0),
     FLAGSUB(25.0),
     FLAGLOW(100.0),
-    FLAGHIGH(5.0),
+    FLAGHIGH(2.5),
     TEST1(70.0),
     TEST2(170);
 
@@ -54,7 +54,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     double currentDegrees = m_elevatorEncoder.get();
 
     if (m_targetSetpoint < currentDegrees) {
-      m_positionController.setP(0.15);
+      m_positionController.setP(0.13);
     } else {
       m_positionController.setP(0.1);
     }
